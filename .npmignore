@@ -1,0 +1,28 @@
+# Source files
+src/
+examples/
+*.ts
+!*.d.ts
+
+# Config files
+tsconfig.json
+.gitignore
+.npmignore
+
+# Bun specific
+bun.lock
+
+# Development
+.idea
+.vscode
+.DS_Store
+.ignore
+
+# CI/CD
+.github/
+
+# Tests
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx

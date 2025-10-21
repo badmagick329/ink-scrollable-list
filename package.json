@@ -1,0 +1,56 @@
+{
+  "name": "ink-scrollable-list",
+  "version": "1.0.0",
+  "description": "A scrollable list component for Ink with keyboard navigation and customizable scroll bars",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf dist",
+    "dev": "bun run examples/simple.tsx"
+  },
+  "keywords": [
+    "ink",
+    "react",
+    "cli",
+    "terminal",
+    "scrollable",
+    "list",
+    "scroll",
+    "tui",
+    "interactive"
+  ],
+  "author": "Uzair Farooqi <uzairfarooqi@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/badmagick329/ink-scrollable-list"
+  },
+  "bugs": {
+    "url": "https://github.com/badmagick329/ink-scrollable-list/issues"
+  },
+  "homepage": "https://github.com/badmagick329/ink-scrollable-list#readme",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "ink": ">=6.0.0",
+    "react": ">=18.0.0"
+  }
+}

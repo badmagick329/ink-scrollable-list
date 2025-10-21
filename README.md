@@ -4,8 +4,8 @@ A scrollable list component for [Ink](https://github.com/vadimdemedes/ink) with 
 
 ## Features
 
-- 📜 **Smooth scrolling** - Navigate through long lists with keyboard controls
-- ⌨️ **Custom key mappings** - Configure any keys for navigation. Uses arrow (↑/↓) and vim-style keys (j/k) by default
+- 📜 **Smooth scrolling** - Navigate line-by-line or jump by pages through long lists
+- ⌨️ **Custom key mappings** - Configure any keys for navigation, including special keys
 - 🎨 **Customizable styling** - Configure borders, colors, and scroll bar appearance
 - 📏 **Flexible scroll bar** - Position on left or right, customize character and style
 - 🎯 **Type-safe** - Built with TypeScript
@@ -23,28 +23,30 @@ yarn add ink-scrollable-list ink react
 bun add ink-scrollable-list ink react
 ```
 
-## Usage
+## Quick Start
 
 ```tsx
 import React from "react";
 import { render } from "ink";
 import { ScrollableList } from "ink-scrollable-list";
 
-const items = [
-  "Item 1",
-  "Item 2",
-  "Item 3",
-  // ... more items
-];
+const items = Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`);
 
 const App = () => {
-  return (
-    <ScrollableList items={items} visibleCount={10} showScrollBar={true} />
-  );
+  return <ScrollableList items={items} visibleCount={10} />;
 };
 
 render(<App />);
 ```
+
+**Default Controls:**
+
+- `↑` or `k` - Scroll up one line
+- `↓` or `j` - Scroll down one line
+- `PageUp` - Jump up by one page
+- `PageDown` - Jump down by one page
+
+> **Note:** The list must be focused to respond to keyboard input. Use `Tab` to cycle focus between components in your Ink app. The border color changes (blue by default) when the list is focused.
 
 ### With Custom Objects
 
@@ -90,8 +92,10 @@ Customize which keys trigger scrolling actions:
 
 ```tsx
 {
-  up?: string[];    // Keys that scroll up (default: ['up', 'k'])
-  down?: string[];  // Keys that scroll down (default: ['down', 'j'])
+  up?: string[];       // Keys that scroll up one line (default: ['up', 'k'])
+  down?: string[];     // Keys that scroll down one line (default: ['down', 'j'])
+  pageUp?: string[];   // Keys that scroll up one page (default: ['pageup'])
+  pageDown?: string[]; // Keys that scroll down one page (default: ['pagedown'])
 }
 ```
 
@@ -100,33 +104,48 @@ Customize which keys trigger scrolling actions:
 You can use any single character (like `'a'`, `'j'`, `'w'`) or these special key names:
 
 - `'up'`, `'down'`, `'left'`, `'right'` - Arrow keys
+- `'pageup'`, `'pagedown'` - Page Up/Down keys
+- `'home'`, `'end'` - Home/End keys
 - `'return'` or `'enter'` - Enter/Return key
 - `'escape'` or `'esc'` - Escape key
 - `'space'` - Space bar
 - `'tab'` - Tab key
 - `'backspace'` - Backspace key
 - `'delete'` - Delete key
-- `'pageup'`, `'pagedown'` - Page Up/Down keys
-- `'home'`, `'end'` - Home/End keys
 
 **Examples:**
 
 ```tsx
-// Use w/s instead of k/j for up/down
+// Use WASD-style navigation
 <ScrollableList
   items={items}
   keyMap={{
     up: ["w", "up"],
     down: ["s", "down"],
+    pageUp: ["W"],      // Shift+W for page up
+    pageDown: ["S"],    // Shift+S for page down
   }}
 />
 
-// Use only arrow keys
+// Use only arrow and page keys (disable vim-style)
 <ScrollableList
   items={items}
   keyMap={{
     up: ["up"],
     down: ["down"],
+    pageUp: ["pageup"],
+    pageDown: ["pagedown"],
+  }}
+/>
+
+// Custom configuration
+<ScrollableList
+  items={items}
+  keyMap={{
+    up: ["up", "k", "w"],
+    down: ["down", "j", "s"],
+    pageUp: ["pageup", "home"],
+    pageDown: ["pagedown", "end", "space"],
   }}
 />
 ```
@@ -149,7 +168,7 @@ import React from "react";
 import { render } from "ink";
 import { ScrollableList } from "ink-scrollable-list";
 
-const items = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
+const items = Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`);
 
 const App = () => {
   return (
@@ -165,10 +184,15 @@ const App = () => {
         color: "white",
         backgroundColor: "gray",
       }}
-      borderStyle={"round"}
-      borderColor={"white"}
-      focusedBorderColor={"blue"}
-      keyMap={{ up: ["up", "k"], down: ["down", "j"] }}
+      borderStyle="round"
+      borderColor="white"
+      focusedBorderColor="blue"
+      keyMap={{
+        up: ["up", "k"],
+        down: ["down", "j"],
+        pageUp: ["pageup"],
+        pageDown: ["pagedown"],
+      }}
     />
   );
 };

@@ -16,6 +16,8 @@ export function ScrollableList(props: ScrollableListProps) {
 
   const upKeys = props.keyMap?.up ?? ["up", "k"];
   const downKeys = props.keyMap?.down ?? ["down", "j"];
+  const pageUpKeys = props.keyMap?.pageUp ?? ["pageup"];
+  const pageDownKeys = props.keyMap?.pageDown ?? ["pagedown"];
 
   useInput((input, key) => {
     if (!isFocused) {
@@ -26,6 +28,10 @@ export function ScrollableList(props: ScrollableListProps) {
       setVisibleItems(visibleItems.scrollDown());
     } else if (matchesKey(upKeys, input, key)) {
       setVisibleItems(visibleItems.scrollUp());
+    } else if (matchesKey(pageDownKeys, input, key)) {
+      setVisibleItems(visibleItems.pageDown());
+    } else if (matchesKey(pageUpKeys, input, key)) {
+      setVisibleItems(visibleItems.pageUp());
     }
   });
   const isLeftScrollBar = props.scrollBarPosition === "left";

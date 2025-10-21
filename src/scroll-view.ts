@@ -39,6 +39,19 @@ export class ScrollView {
     return this;
   }
 
+  pageDown(): ScrollView {
+    const newStart = Math.min(
+      this.windowStart + this.windowSize,
+      this.items.length - this.windowSize
+    );
+    return new ScrollView(this.items, newStart, this.windowSize);
+  }
+
+  pageUp(): ScrollView {
+    const newStart = Math.max(this.windowStart - this.windowSize, 0);
+    return new ScrollView(this.items, newStart, this.windowSize);
+  }
+
   private calculateProgress(): number {
     const maxScrollPosition = this.items.length - this.windowSize;
     if (maxScrollPosition <= 0) return 0;

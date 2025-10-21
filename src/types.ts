@@ -39,6 +39,8 @@ export interface ScrollableListProps {
   keyMap?: {
     up?: string[]; // default: ['up', 'k']
     down?: string[]; // default: ['down', 'j']
+    pageUp?: string[]; // default: ['pageup']
+    pageDown?: string[]; // default: ['pagedown']
   };
 }
 

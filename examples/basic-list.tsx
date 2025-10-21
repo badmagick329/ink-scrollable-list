@@ -1,7 +1,7 @@
 import { ScrollableList } from "../src/ScrollableList";
 import { render } from "ink";
 
-const items = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
+const items = Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`);
 
 const BasicList = () => {
   return (
@@ -20,7 +20,12 @@ const BasicList = () => {
       borderStyle={"round"}
       borderColor={"white"}
       focusedBorderColor={"blue"}
-      keyMap={{ up: ["up", "k"], down: ["down", "j"] }}
+      keyMap={{
+        up: ["up", "k"],
+        down: ["down", "j"],
+        pageUp: ["pageup"],
+        pageDown: ["pagedown"],
+      }}
     />
   );
 };

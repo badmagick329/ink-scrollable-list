@@ -6,7 +6,7 @@ import type { ScrollableListProps } from "./types";
 
 export function ScrollableList(props: ScrollableListProps) {
   const [visibleItems, setVisibleItems] = useState(
-    new ScrollView(props.items, 0, props.visibleCount, props.visibleCount)
+    new ScrollView(props.items, 0, props.visibleCount)
   );
 
   const { isFocused } = useFocus();

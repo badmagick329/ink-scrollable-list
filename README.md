@@ -5,7 +5,7 @@ A scrollable list component for [Ink](https://github.com/vadimdemedes/ink) with 
 ## Features
 
 - 📜 **Smooth scrolling** - Navigate through long lists with keyboard controls
-- ⌨️ **Keyboard navigation** - Use arrow keys (↑/↓) or vim-style keys (j/k)
+- ⌨️ **Custom key mappings** - Configure any keys for navigation. Uses arrow (↑/↓) and vim-style keys (j/k) by default
 - 🎨 **Customizable styling** - Configure borders, colors, and scroll bar appearance
 - 📏 **Flexible scroll bar** - Position on left or right, customize character and style
 - 🎯 **Type-safe** - Built with TypeScript
@@ -73,6 +73,7 @@ const items = [
 | `borderStyle`        | `BorderStyle`       | `'round'`    | Border style (`'single'`, `'double'`, `'round'`, etc.)           |
 | `borderColor`        | `string`            | `'white'`    | Border color when not focused                                    |
 | `focusedBorderColor` | `string`            | `'blue'`     | Border color when focused                                        |
+| `keyMap`             | `object`            | -            | Custom key mappings for navigation (see below)                   |
 
 #### ScrollBarStyle
 
@@ -81,6 +82,53 @@ const items = [
   color?: string;           // Color of the scroll bar indicator
   backgroundColor?: string; // Background color of the scroll bar track
 }
+```
+
+#### KeyMap
+
+Customize which keys trigger scrolling actions:
+
+```tsx
+{
+  up?: string[];    // Keys that scroll up (default: ['up', 'k'])
+  down?: string[];  // Keys that scroll down (default: ['down', 'j'])
+}
+```
+
+**Supported Special Keys:**
+
+You can use any single character (like `'a'`, `'j'`, `'w'`) or these special key names:
+
+- `'up'`, `'down'`, `'left'`, `'right'` - Arrow keys
+- `'return'` or `'enter'` - Enter/Return key
+- `'escape'` or `'esc'` - Escape key
+- `'space'` - Space bar
+- `'tab'` - Tab key
+- `'backspace'` - Backspace key
+- `'delete'` - Delete key
+- `'pageup'`, `'pagedown'` - Page Up/Down keys
+- `'home'`, `'end'` - Home/End keys
+
+**Examples:**
+
+```tsx
+// Use w/s instead of k/j for up/down
+<ScrollableList
+  items={items}
+  keyMap={{
+    up: ["w", "up"],
+    down: ["s", "down"],
+  }}
+/>
+
+// Use only arrow keys
+<ScrollableList
+  items={items}
+  keyMap={{
+    up: ["up"],
+    down: ["down"],
+  }}
+/>
 ```
 
 #### ScrollableItem
@@ -94,12 +142,7 @@ Items must implement:
 }
 ```
 
-## Keyboard Controls
-
-- `↑` or `k` - Scroll up
-- `↓` or `j` - Scroll down
-
-## Example
+## Full Example
 
 ```tsx
 import React from "react";
@@ -111,7 +154,9 @@ const items = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
 const App = () => {
   return (
     <ScrollableList
+      // Required:
       items={items}
+      // Optionals with defaults:
       visibleCount={10}
       showScrollBar={true}
       scrollBarPosition="right"
@@ -120,9 +165,10 @@ const App = () => {
         color: "white",
         backgroundColor: "gray",
       }}
-      borderStyle="round"
-      borderColor="white"
-      focusedBorderColor="blue"
+      borderStyle={"round"}
+      borderColor={"white"}
+      focusedBorderColor={"blue"}
+      keyMap={{ up: ["up", "k"], down: ["down", "j"] }}
     />
   );
 };

@@ -20,6 +20,7 @@ const BasicList = () => {
       borderStyle={"round"}
       borderColor={"white"}
       focusedBorderColor={"blue"}
+      keyMap={{ up: ["up", "k"], down: ["down", "j"] }}
     />
   );
 };

@@ -34,6 +34,12 @@ export interface ScrollableListProps {
   borderStyle?: BorderStyle;
   borderColor?: InkColor;
   focusedBorderColor?: InkColor;
+
+  // Keyboard navigation
+  keyMap?: {
+    up?: string[]; // default: ['up', 'k']
+    down?: string[]; // default: ['down', 'j']
+  };
 }
 
 export type ScrollBarProps = Prettify<

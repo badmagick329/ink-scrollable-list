@@ -14,16 +14,17 @@ export function ScrollableList(props: ScrollableListProps) {
     ? props.focusedBorderColor ?? "blue"
     : props.borderColor ?? "white";
 
+  const upKeys = props.keyMap?.up ?? ["up", "k"];
+  const downKeys = props.keyMap?.down ?? ["down", "j"];
+
   useInput((input, key) => {
     if (!isFocused) {
       return;
     }
 
-    if (key.downArrow || input === "j") {
+    if (matchesKey(downKeys, input, key)) {
       setVisibleItems(visibleItems.scrollDown());
-    }
-
-    if (key.upArrow || input === "k") {
+    } else if (matchesKey(upKeys, input, key)) {
       setVisibleItems(visibleItems.scrollUp());
     }
   });
@@ -53,3 +54,38 @@ export function ScrollableList(props: ScrollableListProps) {
     </Box>
   );
 }
+
+const matchesKey = (
+  configuredKeys: string[],
+  input: string,
+  key: any
+): boolean => {
+  const keyMap: Record<string, boolean> = {
+    up: key.upArrow,
+    down: key.downArrow,
+    left: key.leftArrow,
+    right: key.rightArrow,
+    return: key.return,
+    enter: key.return,
+    escape: key.escape,
+    esc: key.escape,
+    space: input === " ",
+    tab: key.tab,
+    backspace: key.backspace,
+    delete: key.delete,
+    pageup: key.pageUp,
+    pagedown: key.pageDown,
+    home: key.home,
+    end: key.end,
+  };
+
+  return configuredKeys.some((configKey) => {
+    const normalizedKey = configKey.toLowerCase();
+
+    if (keyMap[normalizedKey]) {
+      return keyMap[normalizedKey];
+    }
+
+    return input === configKey;
+  });
+};

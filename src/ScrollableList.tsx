@@ -2,9 +2,11 @@ import { Box, Text, useFocus, useInput } from "ink";
 import { useState } from "react";
 import { ScrollView } from "./scroll-view";
 import { ScrollBar } from "./ScrollBar";
-import type { ScrollableListProps } from "./types";
+import type { ScrollableItem, ScrollableListProps } from "./types";
 
-export function ScrollableList(props: ScrollableListProps) {
+export function ScrollableList<T extends ScrollableItem = ScrollableItem>(
+  props: ScrollableListProps<T>
+) {
   const [visibleItems, setVisibleItems] = useState(
     new ScrollView(props.items, 0, props.visibleCount)
   );
@@ -45,10 +47,17 @@ export function ScrollableList(props: ScrollableListProps) {
       flexDirection={isLeftScrollBar ? "row-reverse" : "row"}
     >
       <Box flexDirection="column">
-        {visibleItems.values.map((item) => {
-          return (
-            <Text key={item.id || item.toString()}>{item.toString()}</Text>
-          );
+        {visibleItems.values.map((item, index) => {
+          const actualIndex = visibleItems.windowStart + index;
+          const key = item.id ?? item.toString();
+
+          if (props.renderItem) {
+            return (
+              <Box key={key}>{props.renderItem(item as T, actualIndex)}</Box>
+            );
+          }
+
+          return <Text key={key}>{item.toString()}</Text>;
         })}
       </Box>
       <ScrollBar

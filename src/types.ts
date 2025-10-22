@@ -17,9 +17,14 @@ export type BorderStyle = Prettify<
 
 export type InkColor = React.ComponentProps<typeof Box>["borderColor"];
 
-export interface ScrollableListProps {
-  items: ScrollableItem[];
+export interface ScrollableListProps<
+  T extends ScrollableItem = ScrollableItem
+> {
+  items: T[];
   visibleCount?: number; // default: 10
+
+  // Custom rendering
+  renderItem?: (item: T, index: number) => React.ReactNode;
 
   // Scroll bar customization
   showScrollBar?: boolean; // default: true
@@ -48,7 +53,7 @@ export type ScrollBarProps = Prettify<
   {
     scrollView: ScrollView;
   } & Pick<
-    ScrollableListProps,
+    ScrollableListProps<any>,
     "scrollBarChar" | "showScrollBar" | "scrollBarStyle"
   >
 >;

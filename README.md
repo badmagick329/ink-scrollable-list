@@ -60,22 +60,75 @@ const items = [
 <ScrollableList items={items} visibleCount={5} />;
 ```
 
+### With Custom Rendering
+
+For more complex item rendering, use the `renderItem` prop to provide a custom render function:
+
+```tsx
+import { Box, Text } from "ink";
+
+interface AppEvent {
+  id: number;
+  timestamp: number;
+  type: "info" | "warning" | "error" | "success";
+  message: string;
+  toString(): string;
+}
+
+const getLevelColor = (level: string) => {
+  switch (level) {
+    case "error":
+      return "red";
+    case "warning":
+      return "yellow";
+    case "success":
+      return "green";
+    default:
+      return "blue";
+  }
+};
+
+const events: AppEvent[] = [
+  // ... your events
+];
+
+<ScrollableList
+  items={events}
+  visibleCount={10}
+  renderItem={(event: AppEvent, index: number) => {
+    const time = new Date(event.timestamp).toLocaleTimeString();
+    return (
+      <Box gap={1}>
+        <Text dimColor>{time}</Text>
+        <Text color={getLevelColor(event.type)} bold>
+          [{event.type.toUpperCase()}]
+        </Text>
+        <Text>{event.message}</Text>
+      </Box>
+    );
+  }}
+/>;
+```
+
+When using `renderItem`, the component will use your custom rendering instead of calling `toString()` on each item. This gives you full control over the appearance of each list item.
+
 ## API
 
 ### Props
 
-| Prop                 | Type                | Default      | Description                                                      |
-| -------------------- | ------------------- | ------------ | ---------------------------------------------------------------- |
-| `items`              | `ScrollableItem[]`  | **Required** | Array of items to display. Items must have a `toString()` method |
-| `visibleCount`       | `number`            | `10`         | Number of items visible at once                                  |
-| `showScrollBar`      | `boolean`           | `true`       | Whether to show the scroll bar                                   |
-| `scrollBarPosition`  | `'left' \| 'right'` | `'right'`    | Position of the scroll bar                                       |
-| `scrollBarChar`      | `string`            | `'█'`        | Character used for the scroll bar indicator                      |
-| `scrollBarStyle`     | `object`            | -            | Style object for scroll bar (see below)                          |
-| `borderStyle`        | `BorderStyle`       | `'round'`    | Border style (`'single'`, `'double'`, `'round'`, etc.)           |
-| `borderColor`        | `string`            | `'white'`    | Border color when not focused                                    |
-| `focusedBorderColor` | `string`            | `'blue'`     | Border color when focused                                        |
-| `keyMap`             | `object`            | -            | Custom key mappings for navigation (see below)                   |
+| Prop                 | Type                                    | Default      | Description                                                      |
+| -------------------- | --------------------------------------- | ------------ | ---------------------------------------------------------------- |
+| `items`              | `ScrollableItem[]`                      | **Required** | Array of items to display. Items must have a `toString()` method |
+| `visibleCount`       | `number`                                | `10`         | Number of items visible at once                                  |
+| `renderItem`         | `(item: T, index: number) => ReactNode` | -            | Custom render function for each item                             |
+| `showScrollBar`      | `boolean`                               | `true`       | Whether to show the scroll bar                                   |
+| `scrollBarPosition`  | `'left' \| 'right'`                     | `'right'`    | Position of the scroll bar                                       |
+| `scrollBarChar`      | `string`                                | `'█'`        | Character used for the scroll bar indicator                      |
+| `scrollBarStyle`     | `object`                                | -            | Style object for scroll bar (see below)                          |
+| `borderStyle`        | `BorderStyle`                           | `'round'`    | Border style (`'single'`, `'double'`, `'round'`, etc.)           |
+| `borderColor`        | `string`                                | `'white'`    | Border color when not focused                                    |
+| `focusedBorderColor` | `string`                                | `'blue'`     | Border color when focused                                        |
+| `keyMap`             | `object`                                | -            | Custom key mappings for navigation (see below)                   |
 
 #### ScrollBarStyle
 

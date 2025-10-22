@@ -49,7 +49,9 @@ export function ScrollableList<T extends ScrollableItem = ScrollableItem>(
       <Box flexDirection="column">
         {visibleItems.values.map((item, index) => {
           const actualIndex = visibleItems.windowStart + index;
-          const key = item.id ?? item.toString();
+          const key = props.keyFn
+            ? props.keyFn(item as T)
+            : item.id ?? item.toString();
 
           if (props.renderItem) {
             return (

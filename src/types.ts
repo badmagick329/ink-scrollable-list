@@ -25,6 +25,7 @@ export interface ScrollableListProps<
 
   // Custom rendering
   renderItem?: (item: T, index: number) => React.ReactNode;
+  keyFn?: (item: T) => string | number; // Custom key extraction function
 
   // Scroll bar customization
   showScrollBar?: boolean; // default: true

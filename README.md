@@ -91,12 +91,21 @@ Use `renderItem` for custom item layouts:
 />
 ```
 
+### Starting at the Bottom
+
+Use `startAtBottom` to show the last items first (useful for logs or chat):
+
+```tsx
+<ScrollableList items={logMessages} visibleCount={10} startAtBottom={true} />
+```
+
 ## API
 
 | Prop                 | Type                                    | Default      | Description                                           |
 | -------------------- | --------------------------------------- | ------------ | ----------------------------------------------------- |
 | `items`              | `T[]`                                   | **Required** | Array of items to display                             |
 | `visibleCount`       | `number`                                | `10`         | Number of items visible at once                       |
+| `startAtBottom`      | `boolean`                               | `false`      | Start with the last items visible (bottom of list)    |
 | `renderItem`         | `(item: T, index: number) => ReactNode` | -            | Custom render function for each item                  |
 | `keyFn`              | `(item: T) => string \| number`         | -            | Function to extract unique key from item              |
 | `showScrollBar`      | `boolean`                               | `true`       | Whether to show the scroll bar                        |

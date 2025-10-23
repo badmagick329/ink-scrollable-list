@@ -22,6 +22,7 @@ export interface ScrollableListProps<
 > {
   items: T[];
   visibleCount?: number; // default: 10
+  startAtBottom?: boolean; // default: false
 
   // Custom rendering
   renderItem?: (item: T, index: number) => React.ReactNode;

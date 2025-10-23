@@ -7,8 +7,16 @@ import type { ScrollableItem, ScrollableListProps } from "./types";
 export function ScrollableList<T extends ScrollableItem = ScrollableItem>(
   props: ScrollableListProps<T>
 ) {
+  const getInitialWindowStart = () => {
+    if (!props.startAtBottom) {
+      return 0;
+    }
+    const visibleCount = props.visibleCount ?? ScrollView.defaultWindowSize;
+    return Math.max(0, props.items.length - visibleCount);
+  };
+
   const [visibleItems, setVisibleItems] = useState(
-    new ScrollView(props.items, 0, props.visibleCount)
+    new ScrollView(props.items, getInitialWindowStart(), props.visibleCount)
   );
 
   const { isFocused } = useFocus();

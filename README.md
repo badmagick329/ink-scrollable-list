@@ -91,6 +91,35 @@ Use `renderItem` for custom item layouts:
 />
 ```
 
+### Handling Long Text Content
+
+When displaying long text content, you may need to truncate items to prevent horizontal overflow, especially when the scrollbar is present. Use the `useListItemWidth` hook to calculate the safe width for text content:
+
+```tsx
+import { ScrollableList, useListItemWidth } from "ink-scrollable-list";
+
+const MyList = () => {
+  const safeWidth = useListItemWidth(true, "round"); // with scrollbar, round border
+
+  return (
+    <ScrollableList
+      items={longItems}
+      showScrollBar={true}
+      borderStyle="round"
+      renderItem={(item, index) => (
+        <Text>
+          {item.text.length > safeWidth
+            ? `${item.text.slice(0, safeWidth - 3)}...`
+            : item.text}
+        </Text>
+      )}
+    />
+  );
+};
+```
+
+The hook accounts for borders, scrollbar space, and padding to provide the maximum safe width for text content.
+
 ### Starting at the Bottom
 
 Use `startAtBottom` to show the last items first (useful for logs or chat):
@@ -116,6 +145,23 @@ Use `startAtBottom` to show the last items first (useful for logs or chat):
 | `borderColor`        | `string`                                | `'white'`    | Border color when not focused                         |
 | `focusedBorderColor` | `string`                                | `'blue'`     | Border color when focused                             |
 | `keyMap`             | `object`                                | -            | Custom key mappings (see below)                       |
+
+### Hooks
+
+#### useListItemWidth
+
+Hook to calculate the safe width for text content, accounting for scrollbar and border space:
+
+```tsx
+const safeWidth = useListItemWidth(showScrollBar, borderStyle);
+```
+
+**Parameters:**
+
+- `showScrollBar` (boolean, default: `true`) - Whether the scrollbar is visible
+- `borderStyle` (string, optional) - The border style being used
+
+**Returns:** Number representing the safe character width for text content.
 
 ### keyMap
 

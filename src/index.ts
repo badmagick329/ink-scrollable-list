@@ -7,3 +7,4 @@ export type {
   BorderStyle,
   InkColor,
 } from "./types";
+export { useListItemWidth } from "./hooks";

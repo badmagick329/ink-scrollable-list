@@ -10,6 +10,7 @@ const BasicList = () => {
       items={items}
       // Optionals with defaults:
       visibleCount={10}
+      startAtBottom={false}
       showScrollBar={true}
       scrollBarPosition="right"
       scrollBarChar="█"

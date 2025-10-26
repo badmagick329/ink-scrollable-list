@@ -52,6 +52,10 @@ export class ScrollView {
     return new ScrollView(this.items, newStart, this.windowSize);
   }
 
+  isScrollable(): boolean {
+    return this.windowSize >= this.items.length;
+  }
+
   private calculateProgress(): number {
     const maxScrollPosition = this.items.length - this.windowSize;
     if (maxScrollPosition <= 0) return 0;

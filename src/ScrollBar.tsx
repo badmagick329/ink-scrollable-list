@@ -13,7 +13,10 @@ export function ScrollBar(props: ScrollBarProps) {
       paddingTop={scrollPosition}
       backgroundColor={props.scrollBarStyle?.backgroundColor ?? "gray"}
     >
-      <Text color={props.scrollBarStyle?.color ?? "white"}>
+      <Text
+        color={props.scrollBarStyle?.color ?? "white"}
+        dimColor={props.scrollView.isScrollable()}
+      >
         {props.scrollBarChar || "█"}
       </Text>
     </Box>
